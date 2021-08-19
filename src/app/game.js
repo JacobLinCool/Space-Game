@@ -1,6 +1,7 @@
 import { Ship } from "./ship.js";
 import { draw } from "./draw.js";
 import { distance } from "./utils";
+import sound from "./sound.js";
 
 class Player {
     constructor({ name = "Player" }) {
@@ -33,12 +34,17 @@ function game() {
 function update() {
     const removeShips = [];
     const mOffset = player.ships[0].offset();
+    sound.speed(player.ships[0].speed * 400, 0.08);
     for (let i = 1; i < player.ships.length; i++) {
-        if (distance(player.ships[0], player.ships[i]) > 1000) {
+        const d = distance(player.ships[0], player.ships[i]);
+        if (d > 1000) {
             removeShips.push(i);
             console.log(`Ship ${i} has disconnected.`);
+            sound.disconnected();
             continue;
         }
+        if (d > 400 && Math.random() > 0.5) sound.noise(0.4 * ((1200 - d) / 800));
+        sound.speed(player.ships[i].speed * 400);
         const offset = player.ships[i].offset();
         player.ships[i].x += offset.x - mOffset.x;
         player.ships[i].y += offset.y - mOffset.y;
@@ -62,7 +68,7 @@ function keyboardListener() {
     window.onkeydown = window.onkeyup = function (event) {
         if (event.type === "keydown") keyPress[event.key] = true;
         else delete keyPress[event.key];
-        console.log(keyPress);
+
         if (keyPress["c"]) {
             saperate();
         }
@@ -81,6 +87,7 @@ function keyboardListener() {
             }
         }
         if (keyPress["a"] || keyPress["ArrowLeft"]) {
+            sound.rotate();
             if (keyPress["0"]) {
                 for (let i = 0; i < player.ships.length; i++) player.ships[i].turnLeft();
             } else {
@@ -109,6 +116,7 @@ function keyboardListener() {
             }
         }
         if (keyPress["d"] || keyPress["ArrowRight"]) {
+            sound.rotate();
             if (keyPress["0"]) {
                 for (let i = 0; i < player.ships.length; i++) player.ships[i].turnRight();
             } else {
@@ -144,6 +152,7 @@ function saperate() {
     if (player.token < 100) return;
     player.token -= 100;
 
+    sound.saperate();
     const ship = new Ship({ player: player });
     ship.speed = player.ships[0].speed * 0.8;
     ship.head = player.ships[0].head;
@@ -152,6 +161,7 @@ function saperate() {
 
 function fire(ship) {
     if (!ship.attackable) return;
+    sound.fire();
     const bullet = ship.fire();
     bullets.push(bullet);
 }

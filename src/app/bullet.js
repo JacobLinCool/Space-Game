@@ -5,7 +5,7 @@ class Bullet {
 
         this.x = attacker.x;
         this.y = attacker.y;
-        this.speed = attacker.speed + 8;
+        this.speed = attacker.speed + 6;
         this.head = attacker.head;
     }
 
