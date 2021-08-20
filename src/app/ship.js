@@ -1,4 +1,5 @@
 import { Bullet } from "./bullet";
+import { Drone } from "./drone";
 
 class Ship {
     constructor({ player = null, lv = 0, speed = 0.5, x = 0, y = 0 }) {
@@ -39,9 +40,11 @@ class Ship {
     }
     speedUp() {
         if (this.speed < 2) this.speed += 0.05;
+        this.speed = Math.min(this.speed, 2);
     }
     speedDown() {
         if (this.speed > 0) this.speed -= 0.05;
+        this.speed = Math.max(this.speed, 0);
     }
     turnLeft() {
         this.head += 3;
@@ -62,6 +65,12 @@ class Ship {
             x: Math.cos((this.head * Math.PI) / 180) * this.speed,
             y: Math.sin((this.head * Math.PI) / 180) * this.speed,
         };
+    }
+    drone() {
+        if (this.player.token >= 50) {
+            this.player.token -= 50;
+            return new Drone(this);
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 class Bullet {
     constructor(attacker) {
         this.attacker = attacker;
-        this.atk = attacker.atk;
+        this.damage = attacker.atk;
 
         this.x = attacker.x;
         this.y = attacker.y;

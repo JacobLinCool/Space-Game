@@ -25,4 +25,16 @@ function rotate() {
     zzfx(0.03, z, 10, 0.06, z, 0, 2, 2.3, z, z, 621, z, z, z, z, z, z, z, 0.21, 0.26);
 }
 
-export default { fire, saperate, noise, disconnected, speed, rotate };
+function explosion() {
+    zzfx(0.6, z, 372, 0.02, 0.02, 0.5, 4, 2.29, 0.2, z, z, z, z, 0.6, z, 0.6, z, 0.7, 0.04, 0.19);
+}
+
+function defend() {
+    zzfx(2, z, 180, 0.05, 0.03, 0.04, z, 2.42, 0.6, z, z, z, z, z, z, z, 0.15, 0.39, 0.04);
+}
+
+function gameover() {
+    zzfx(1.99, z, 171, 0.02, 0.01, 0.08, 4, 2.39, 14, z, z, z, z, 0.3, z, 0.1, 0.16, z, 0.1);
+}
+
+export default { fire, saperate, noise, disconnected, speed, rotate, explosion, defend, gameover };
